@@ -1,0 +1,39 @@
+{% extends "forms.html" %}
+{% load humanize common forms %}{% load cache %}
+
+{% block title %}Hosts{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+
+<h2>Register for ARCS Services</h2>
+<form method="post" action=".">
+  <div>
+      <p>Hi {{ first_name }}, by registering for ARCS Services</p>
+      <ul>
+    <li>I confirm that I will comply with the <a href="http://www.arcs.org.au/about/policies/acceptable-use-policy">ARCS Acceptable Use Policy</a>.</li>
+    <li>I consent my Identity Provider to release the following attributes to ARCS:
+      <ul>
+          <li>auEduPersonSharedToken</li>
+          <li>eduPersonAffiliation (role at local institution)</li>
+          <li>displayName (preferred name for display)</li>
+          <li>mail (email address)</li>
+          <li>eduPersonAssurance (Identity Level of Assurance)</li>
+          <li>cn (common name)</li>
+          <li>o (organisation)</li>
+          <li>l (localty)</li>
+      <ul>
+        </li>
+    </ul>
+
+  </div>
+  <div class="submit-row">
+    <input type="submit" value="Submit" class="default" />
+  </div>
+</form>
+{% endblock %}
+
