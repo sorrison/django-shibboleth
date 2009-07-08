@@ -1,5 +1,5 @@
 # Create your views here.
-from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth import login
@@ -41,7 +41,6 @@ def parse_attributes(request):
 def shib_register(request):
 
     attrs = parse_attributes(request)
-    # TODO Check to see if user already logged in or user already registered
 
     if attrs['shared_token'] == '' or \
        attrs['email'] == '' or \
@@ -49,12 +48,6 @@ def shib_register(request):
        attrs['organisation'] == '' or \
        attrs['locality'] == '':
         return HttpResponseForbidden(loader.render_to_string('forbidden.html', locals(), context_instance=RequestContext(request)))
-
-    try:
-        user = User.objects.get(username=attrs['shared_token'])
-        return HttpResponseRedirect(reverse('shib_login'))
-    except:
-        pass
 
     if request.method == 'POST':
         user = User.objects.create_user(attrs['shared_token'], attrs['email'], '')
@@ -66,29 +59,11 @@ def shib_register(request):
         user.save()
 
         user.backend = 'django.contrib.auth.backends.ModelBackend'
-        login(request, user)
-
-        return HttpResponseRedirect(reverse('new_user'))
-
-    return render_to_response('register.html', locals(), context_instance=RequestContext(request))
-
-
-def shib_login(request):
-    attrs = parse_attributes(request)
-    # TODO Check to see if user already logged in or user already registered
-    #return HttpResponse(str(attrs))
-
-    if attrs['shared_token'] == '' or \
-       attrs['email'] == '' or \
-       attrs['cn'] == '' or \
-       attrs['organisation'] == '' or \
-       attrs['locality'] == '':
-        return HttpResponseForbidden(loader.render_to_string('forbidden.html', locals(), context_instance=RequestContext(request)))
 
     try:
         user = User.objects.get(username=attrs['shared_token'])
     except:
-        return HttpResponseRedirect(reverse('shib_register'))
+        return render_to_response('register.html', locals(), context_instance=RequestContext(request))
 
     user.set_unusable_password()
     user.first_name = attrs['first_name']
@@ -99,6 +74,6 @@ def shib_login(request):
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request, user)
 
-    return HttpResponseRedirect(reverse('profile'))
+    return HttpResponseRedirect(reverse('profile_detail'))
 
 
