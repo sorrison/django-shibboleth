@@ -8,7 +8,7 @@ from django.conf import settings
 from utils import parse_attributes
 
 
-def shib_register(request, RegisterForm=None, register_template_name='shibboleth/register.html', redirect_url='/profile/'):
+def shib_register(request, RegisterForm=None, register_template_name='shibboleth/register.html', redirect_url='/accounts/profile/'):
 
     attr = parse_attributes(request.META)
     
