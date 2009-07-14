@@ -3,13 +3,14 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth import login
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from utils import parse_attributes
 
 
 def shib_register(request, RegisterForm=None, register_template_name='shibboleth/register.html', redirect_url='/profile/'):
 
-    attrs = parse_attributes(request.META)
+    attr = parse_attributes(request.META)
     
     if request.method == 'POST':
         # Post from register_form
