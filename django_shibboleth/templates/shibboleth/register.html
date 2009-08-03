@@ -17,15 +17,15 @@
         <li>I confirm that I will comply with the <a href="http://www.arcs.org.au/about/policies/acceptable-use-policy">ARCS Acceptable Use Policy</a>.</li>
         <li>I consent my Identity Provider to release the following attributes to ARCS:
           <ul>
-            {% for name,value in attr.items %}
-            <li>{{ name }}:	{{ value }}</li>
+            {% for name,value in shib_attrs.items %}
+            <li>{{ name }}:     {{ value }}</li>
             {% endfor %}
             <ul>
         </li>
         </ul>
-	
+
   </div>
-  <div class="hidden" name="next" value="{{ redirect_to }}" />
+  <input type="hidden" name="next" value="{{ next }}" />
   <div class="submit-row">
     <input type="submit" value="Submit" class="default" />
   </div>
