@@ -8,10 +8,13 @@ from django.conf import settings
 from utils import parse_attributes
 from forms import BaseRegisterForm
 
-def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name='shibboleth/register.html', redirect_url='/accounts/profile/'):
+def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name='shibboleth/register.html', redirect_url=settings.LOGIN_REDIRECT_URL):
 
     attr = parse_attributes(request.META)
     
+    if request.REQUEST.has_key('next'):
+        redirect_url = request.REQUEST.get('next')
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -32,7 +35,10 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
     login(request, user)
 
     if request.REQUEST.has_key('next'):
-        HttpResponseRedirect(request.REQUEST['next'])
+        redirect_url = request.REQUEST.get('next')
+
+    if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
+        redirect_to = settings.LOGIN_REDIRECT_URL
 
     return HttpResponseRedirect(redirect_url)
 
