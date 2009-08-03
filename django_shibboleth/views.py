@@ -6,26 +6,20 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from utils import parse_attributes
+from forms import BaseRegisterForm
 
-
-def shib_register(request, RegisterForm=None, register_template_name='shibboleth/register.html', redirect_url='/accounts/profile/'):
+def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name='shibboleth/register.html', redirect_url='/accounts/profile/'):
 
     attr = parse_attributes(request.META)
     
     if request.method == 'POST':
-        # Post from register_form
-        if RegisterForm:
-            form = RegisterForm(request.POST)
-            if form.is_valid:
-                form.save()
-        user = User.objects.create_user(attr[settings.SHIB_USERNAME], attr[settings.SHIB_EMAIL], '')
-
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(attr)
     try:
         user = User.objects.get(username=attr[settings.SHIB_USERNAME])
     except User.DoesNotExist:
-        if RegisterForm:
-            form = RegisterForm()
-
+        form = RegisterForm()
         return render_to_response(register_template_name, locals(), context_instance=RequestContext(request))
 
     user.set_unusable_password()
@@ -36,6 +30,9 @@ def shib_register(request, RegisterForm=None, register_template_name='shibboleth
 
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request, user)
+
+    if request.REQUEST.has_key('next'):
+        HttpResponseRedirect(request.REQUEST['next'])
 
     return HttpResponseRedirect(redirect_url)
 
