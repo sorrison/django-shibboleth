@@ -3,6 +3,30 @@ Introduction
 
 This module will register and login users coming from a shibboleth IdP.
 
+To use it you will need to:
+
+   * Add 'django_shibboleth' to your INSTALLED
+
+   * Add to your url scheme:
+     	 (r'^shibboleth/', include('django_shibboleth.urls')),
+	 
+
+     If you want to override some of the default options you will need to split these urls up.
+     You will also need to protect this url location with shibboleth.
+
+     Example in apache would be:
+
+     	     <Location /shibboleth>
+	        AuthType shibboleth
+        	ShibRequireSession On
+        	ShibUseHeaders On
+		require valid-user
+    	     </Location>
+
+
+   * Add the required settings (mentioned below)
+
+
 Views
 =====
 
