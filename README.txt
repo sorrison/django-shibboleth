@@ -39,7 +39,7 @@ Does two things.
  1. For a *new user* it will present a form asking the user to register. 
     Upon submission it will create a ``User`` object and redirect them to settings.LOGIN_REDIRECT_URL.
 
- 2. For an *existing user* it will log the user into the site and also update there details if they have changed from their IdP.
+ 2. For an *existing user* it will log the user into the site and also update their details if they have changed from their IdP.
     It will then redirect them to settings.LOGIN_REDIRECT_URL.
 
 **Optional arguments:**
