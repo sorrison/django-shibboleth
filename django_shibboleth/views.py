@@ -30,9 +30,12 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
         return return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
 
     user.set_unusable_password()
-    user.first_name = attr[settings.SHIB_FIRST_NAME]
-    user.last_name = attr[settings.SHIB_LAST_NAME]
-    user.email = attr[settings.SHIB_EMAIL]
+    try:
+        user.first_name = attr[settings.SHIB_FIRST_NAME]
+        user.last_name = attr[settings.SHIB_LAST_NAME]
+        user.email = attr[settings.SHIB_EMAIL]
+    except:
+        pass
     user.save()
 
     user.backend = 'django.contrib.auth.backends.ModelBackend'
