@@ -25,6 +25,9 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
         form = RegisterForm()
         context = {'form': form, 'next': redirect_url, 'shib_attrs': attr, }
         return render_to_response(register_template_name, context, context_instance=RequestContext(request))
+    except KeyError:
+        context = {'shib_attrs': attr, }
+        return return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
 
     user.set_unusable_password()
     user.first_name = attr[settings.SHIB_FIRST_NAME]
