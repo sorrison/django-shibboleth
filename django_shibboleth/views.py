@@ -19,7 +19,7 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
         username = attr[settings.SHIB_USERNAME]
     except:
         context = {'shib_attrs': attr, }
-        return return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
+        return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
