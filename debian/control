@@ -1,0 +1,13 @@
+Source: django-shibboleth
+Section: python
+Priority: optional
+Maintainer: Sam Morrison <sam@vpac.org>
+Build-Depends: debhelper (>=7.0.0), python-support (>= 0.6), cdbs (>= 0.4.49)
+Standards-Version: 3.8.3.0
+
+Package: django-shibboleth
+Architecture: all
+Homepage: http://code.arcs.org.au/gitorious/django/django-shibboleth/
+Depends: ${misc:Depends}, ${python:Depends}, python-django (>= 1.0)
+Description: Various apps for using shibboleth with Django
+ Provides some tools to make it easier to use shibboleth with Django.
