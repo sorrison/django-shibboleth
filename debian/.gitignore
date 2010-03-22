@@ -1,0 +1,8 @@
+django-shibboleth.debhelper.log
+django-shibboleth.postinst.debhelper
+django-shibboleth.prerm.debhelper
+django-shibboleth.substvars
+django-shibboleth/
+files
+pycompat
+python-module-stampdir/
