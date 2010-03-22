@@ -1,3 +1,9 @@
+django-shibboleth (1.0.2) testing; urgency=high
+
+  * Added another check for missing username
+
+ -- Sam Morrison <sam@vpac.org>  Mon, 22 Mar 2010 16:52:21 +1100
+
 django-shibboleth (1.0.1) testing; urgency=low
 
   * Initial release.
