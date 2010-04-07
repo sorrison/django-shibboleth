@@ -29,17 +29,18 @@ from forms import BaseRegisterForm
 def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name='shibboleth/register.html'):
 
     attr = parse_attributes(request.META)
-
+    was_redirected = False
+    if request.REQUEST.has_key('next'):
+        was_redirected = True
     redirect_url = request.REQUEST.get('next', settings.LOGIN_REDIRECT_URL)
-
+    context = {'shib_attrs': attr, 
+               'was_redirected': was_redirected}
     try:
         username = attr[settings.SHIB_USERNAME]
     except:
-        context = {'shib_attrs': attr, }
         return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
 
     if not attr[settings.SHIB_USERNAME] or attr[settings.SHIB_USERNAME] == '':
-        context = {'shib_attrs': attr, }
         return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
 
     if request.method == 'POST':
@@ -50,7 +51,7 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
         user = User.objects.get(username=attr[settings.SHIB_USERNAME])
     except User.DoesNotExist:
         form = RegisterForm()
-        context = {'form': form, 'next': redirect_url, 'shib_attrs': attr, }
+        context = {'form': form, 'next': redirect_url, 'shib_attrs': attr, 'was_redirected': was_redirected, }
         return render_to_response(register_template_name, context, context_instance=RequestContext(request))
 
     user.set_unusable_password()
