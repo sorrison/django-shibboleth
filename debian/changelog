@@ -1,3 +1,9 @@
+django-shibboleth (1.0.3) testing; urgency=low
+
+  * Supply was_redirected context for templates
+
+ -- Sam Morrison <sam@vpac.org>  Wed, 07 Apr 2010 17:04:01 +1000
+
 django-shibboleth (1.0.2) testing; urgency=high
 
   * Added another check for missing username
