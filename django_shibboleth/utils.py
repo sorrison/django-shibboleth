@@ -16,7 +16,6 @@
 # along with django_shibboleth  If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.http import HttpResponseForbidden
 
 
 def parse_attributes(META):
@@ -24,10 +23,14 @@ def parse_attributes(META):
 
     for header, attr in settings.SHIB_ATTRIBUTE_MAP.items():
         required, name = attr
-        a = META.get(header, None)
-        shib_attrs[name] = a
-
-#        if required and not a:
-#            return HttpResponseForbidden("Required attribute %s not found" % name)
+        values = META.get(header, None)
+        if values:
+            # If multiple attributes releases just care about the 1st one
+            try:
+                value = values.split(';')[0]
+            except:
+                value = values
+                
+        shib_attrs[name] = value
 
     return shib_attrs
