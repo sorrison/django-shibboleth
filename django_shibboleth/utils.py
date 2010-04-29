@@ -31,6 +31,6 @@ def parse_attributes(META):
             except:
                 value = values
                 
-        shib_attrs[name] = value
+            shib_attrs[name] = value
 
     return shib_attrs
