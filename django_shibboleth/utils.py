@@ -20,10 +20,11 @@ from django.conf import settings
 
 def parse_attributes(META):
     shib_attrs = {}
-
+    error = False
     for header, attr in settings.SHIB_ATTRIBUTE_MAP.items():
         required, name = attr
         values = META.get(header, None)
+        value = None
         if values:
             # If multiple attributes releases just care about the 1st one
             try:
@@ -32,5 +33,7 @@ def parse_attributes(META):
                 value = values
                 
             shib_attrs[name] = value
-
-    return shib_attrs
+        if not value or value == '':
+            if required:
+                error = True
+    return shib_attrs, error

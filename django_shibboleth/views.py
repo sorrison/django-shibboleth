@@ -28,13 +28,16 @@ from forms import BaseRegisterForm
 
 def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name='shibboleth/register.html'):
 
-    attr = parse_attributes(request.META)
+    attr, error = parse_attributes(request.META)
+
     was_redirected = False
     if request.REQUEST.has_key('next'):
         was_redirected = True
     redirect_url = request.REQUEST.get('next', settings.LOGIN_REDIRECT_URL)
     context = {'shib_attrs': attr, 
                'was_redirected': was_redirected}
+    if error:
+        return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
     try:
         username = attr[settings.SHIB_USERNAME]
     except:
