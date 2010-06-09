@@ -32,7 +32,7 @@ def parse_attributes(META):
             except:
                 value = values
                 
-            shib_attrs[name] = value
+        shib_attrs[name] = value
         if not value or value == '':
             if required:
                 error = True
