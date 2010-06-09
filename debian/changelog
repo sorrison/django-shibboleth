@@ -1,3 +1,9 @@
+django-shibboleth (1.0.7) testing; urgency=low
+
+  * Fixed issue where missing attributes not showing up
+
+ -- Sam Morrison <sam@vpac.org>  Wed, 09 Jun 2010 15:02:33 +1000
+
 django-shibboleth (1.0.6) testing; urgency=low
 
   * Better error handleing for missing required attributes
