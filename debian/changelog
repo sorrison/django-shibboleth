@@ -1,3 +1,9 @@
+django-shibboleth (1.0.8) testing; urgency=low
+
+  * Added shib_logon_done signal.
+
+ -- Sam Morrison <sam@vpac.org>  Mon, 28 Jun 2010 10:47:14 +1000
+
 django-shibboleth (1.0.7) testing; urgency=low
 
   * Fixed issue where missing attributes not showing up
