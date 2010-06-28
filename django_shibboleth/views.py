@@ -69,7 +69,7 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
 
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request, user)
-    shib_logon_done.send(sender=self, user=user, shib_attrs=attr)
+    shib_logon_done.send(sender=shib_register, user=user, shib_attrs=attr)
 
     if not redirect_url or '//' in redirect_url or ' ' in redirect_url:
         redirect_url = settings.LOGIN_REDIRECT_URL
