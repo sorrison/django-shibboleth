@@ -81,4 +81,4 @@ def shib_meta(request):
     
     meta_data = request.META.items()
 
-    return render_to_response('shibboleth/meta.html', {'meta': metadata}, context_instance=RequestContext(request))
+    return render_to_response('shibboleth/meta.html', {'meta_data': meta_data}, context_instance=RequestContext(request))
