@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with django_shibboleth  If not, see <http://www.gnu.org/licenses/>.
 
-VERSION = (1, 0, 8, 'final', 0)
+VERSION = (1, 0, 9, 'final', 0)
 
 def get_version():
     """ Return the current version"""

@@ -1,3 +1,9 @@
+django-shibboleth (1.0.9) testing; urgency=low
+
+  * Fixed signal bug
+
+ -- Sam Morrison <sam@vpac.org>  Mon, 28 Jun 2010 10:56:43 +1000
+
 django-shibboleth (1.0.8) testing; urgency=low
 
   * Added shib_logon_done signal.
