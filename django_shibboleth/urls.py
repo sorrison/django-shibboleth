@@ -23,4 +23,5 @@ urlpatterns = patterns('django_shibboleth.views',
 
     url(r'^login/$',    'shib_register', name='shib_login'),
     url(r'^register/$', 'shib_register', name='shib_register'),
+    url(r'^meta/$',     'shib_meta',     name='shib_meta'),
 )

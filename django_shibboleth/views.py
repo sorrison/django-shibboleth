@@ -75,3 +75,10 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
         redirect_url = settings.LOGIN_REDIRECT_URL
 
     return HttpResponseRedirect(redirect_url)
+
+
+def shib_meta(request):
+    
+    meta_data = request.META.items()
+
+    return render_to_response('shibboleth/meta.html', {'meta': metadata}, context_instance=RequestContext(request))
