@@ -10,7 +10,7 @@
 
 <ul>
   {% for name,value in shib_attrs.items %}
-  <li>{{ name }}:     <b>{{ value|default:"missing" }}</b></li>
+  <li>{{ name }}:     <b>{{ value|default:'<span class="red">missing</span>' }}</b></li>
   {% endfor %}
 </ul>
 
