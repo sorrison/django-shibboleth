@@ -1,3 +1,10 @@
+django-shibboleth (1.0.11-1) stable; urgency=low
+
+  * Bug fix in meta view
+  * Red text for missing attributes
+
+ -- Sam Morrison <sam@vpac.org>  Tue, 08 Mar 2011 11:47:11 +1100
+
 django-shibboleth (1.0.10-1) stable; urgency=low
 
   * Added META view
