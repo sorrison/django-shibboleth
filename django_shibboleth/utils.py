@@ -16,7 +16,9 @@
 # along with django_shibboleth  If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.http import HttpResponseRedirect
 
 def parse_attributes(META):
     shib_attrs = {}
@@ -37,3 +39,31 @@ def parse_attributes(META):
             if required:
                 error = True
     return shib_attrs, error
+
+
+def build_shib_url(request, target, entityid=None):
+    url_base = 'https://%s' % request.get_host()
+    shib_url = "%s%s" % (url_base, getattr(settings, 'SHIB_HANDLER', '/Shibboleth.sso/DS'))
+    if not target.startswith('http'):
+        target = url_base + target
+
+    url = '%s?target=%s' % (shib_url, target)
+    if entityid:
+        url += '&entityID=%s' % entityid
+    return url
+
+
+def ensure_shib_session(request):
+    if 'HTTP_SHIB_SESSION_ID' in request.META and request.META['HTTP_SHIB_SESSION_ID']:
+        
+    
+        attr, error = parse_attributes(request.META)
+        if error:
+            return render_to_response('shibboleth/attribute_error.html', 
+                                      {'shib_attrs': attr}, 
+                                      context_instance=RequestContext(request))
+        return None
+    else:
+        return HttpResponseRedirect(build_shib_url(request, request.build_absolute_uri()))
+    
+
