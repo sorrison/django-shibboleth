@@ -1,3 +1,10 @@
+django-shibboleth (1.1-1) stable; urgency=low
+
+  * Added shib_required decorator
+  * Added utility methods build_shib_url and ensure_shib_session
+
+ -- Sam Morrison <sam@vpac.org>  Mon, 04 Apr 2011 13:43:20 +1000
+
 django-shibboleth (1.0.11-1) stable; urgency=low
 
   * Bug fix in meta view
