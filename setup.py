@@ -77,4 +77,13 @@ setup(
     packages = packages,
     cmdclass = cmdclasses,
     data_files = data_files,
+    classifiers = [
+        'Development Status :: 4 - Beta',
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: GPL License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Internet :: WWW/HTTP',
+    ]
 )
