@@ -1,0 +1,7 @@
+*.pyc
+eggs/
+parts/
+develop-eggs/
+.installed.cfg
+bin/
+django_shibboleth.egg-info
