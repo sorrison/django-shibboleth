@@ -61,6 +61,12 @@ SHIB_ATTRIBUTE_MAP = {
     "HTTP_SHIB_GIVENNAME": (False, "first_name"),
     "HTTP_SHIB_SN": (False, "last_name"),
 }
+SHIB_USERNAME = "shared_token"
+SHIB_EMAIL = "email"
+SHIB_FIRST_NAME = "first_name"
+SHIB_LAST_NAME = "last_name"
+
+LOGIN_REDIRECT_URL = "/success"
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = ['--nocapture',

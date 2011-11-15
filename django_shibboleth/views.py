@@ -50,6 +50,7 @@ def shib_register(request, RegisterForm=BaseRegisterForm,
                                   context_instance=RequestContext(request))
     try:
         username = attr[settings.SHIB_USERNAME]
+        # TODO this should log a misconfiguration.
     except:
         return render_forbidden('shibboleth/attribute_error.html',
                                   context,
