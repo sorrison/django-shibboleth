@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with django_shibboleth  If not, see <http://www.gnu.org/licenses/>.
 
-from django.http import HttpResponseRedirect
-from django.template import RequestContext
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.template import loader, RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth import login
 from django.contrib.auth.models import User
@@ -27,25 +27,39 @@ from forms import BaseRegisterForm
 from signals import shib_logon_done
 
 
-def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name='shibboleth/register.html'):
+def render_forbidden(*args, **kwargs):
+    httpresponse_kwargs = {'mimetype': kwargs.pop('mimetype', None)}
+    return HttpResponseForbidden(loader.render_to_string(*args, **kwargs),
+                                 **httpresponse_kwargs)
+
+
+def shib_register(request, RegisterForm=BaseRegisterForm,
+                  register_template_name='shibboleth/register.html'):
 
     attr, error = parse_attributes(request.META)
 
     was_redirected = False
-    if request.REQUEST.has_key('next'):
+    if "next" in request.REQUEST:
         was_redirected = True
     redirect_url = request.REQUEST.get('next', settings.LOGIN_REDIRECT_URL)
-    context = {'shib_attrs': attr, 
+    context = {'shib_attrs': attr,
                'was_redirected': was_redirected}
     if error:
-        return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
+        return render_forbidden('shibboleth/attribute_error.html',
+                                  context,
+                                  context_instance=RequestContext(request))
     try:
         username = attr[settings.SHIB_USERNAME]
+        # TODO this should log a misconfiguration.
     except:
-        return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
+        return render_forbidden('shibboleth/attribute_error.html',
+                                  context,
+                                  context_instance=RequestContext(request))
 
     if not attr[settings.SHIB_USERNAME] or attr[settings.SHIB_USERNAME] == '':
-        return render_to_response('shibboleth/attribute_error.html', context, context_instance=RequestContext(request))
+        return render_forbidden('shibboleth/attribute_error.html',
+                                  context,
+                                  context_instance=RequestContext(request))
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -55,8 +69,13 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
         user = User.objects.get(username=attr[settings.SHIB_USERNAME])
     except User.DoesNotExist:
         form = RegisterForm()
-        context = {'form': form, 'next': redirect_url, 'shib_attrs': attr, 'was_redirected': was_redirected, }
-        return render_to_response(register_template_name, context, context_instance=RequestContext(request))
+        context = {'form': form,
+                   'next': redirect_url,
+                   'shib_attrs': attr,
+                   'was_redirected': was_redirected}
+        return render_to_response(register_template_name,
+                                  context,
+                                  context_instance=RequestContext(request))
 
     user.set_unusable_password()
     try:
@@ -78,7 +97,9 @@ def shib_register(request, RegisterForm=BaseRegisterForm, register_template_name
 
 
 def shib_meta(request):
-    
+
     meta_data = request.META.items()
 
-    return render_to_response('shibboleth/meta.html', {'meta_data': meta_data}, context_instance=RequestContext(request))
+    return render_to_response('shibboleth/meta.html',
+                              {'meta_data': meta_data},
+                              context_instance=RequestContext(request))
