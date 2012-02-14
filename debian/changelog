@@ -1,3 +1,11 @@
+django-shibboleth (1.2-1) stable; urgency=low
+
+  * pep8 fixes
+  * Tests for success and failure
+  * Return 403 when not authenticated
+
+ -- Sam Morrison <sam@vpac.org>  Tue, 14 Feb 2012 14:48:43 +1100
+
 django-shibboleth (1.1-1) stable; urgency=low
 
   * Added shib_required decorator
